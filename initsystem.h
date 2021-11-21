@@ -55,6 +55,9 @@ public:
     Qt3DCore::QEntity *grSC2Tr;
     Qt3DCore::QTransform *grSC2TrTransform;
 
+//    Qt3DCore::QEntity *grSC2debujar;
+//    Qt3DCore::QTransform *grSC2DebujarTransform;
+
     Qt3DCore::QEntity *grSC2;
     Qt3DCore::QTransform *grSC2Transform;
     QPropertyAnimation *grSC2Animation;

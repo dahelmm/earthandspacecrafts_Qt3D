@@ -95,6 +95,9 @@ InitSystem::InitSystem()
     });
 
 
+//    grSC2debujar = new Qt3DCore::QEntity(rootEntity);
+//    grSC2DebujarTransform = new Qt3DCore::QTransform(grSC2debujar);
+
 
     grSC2Tr = new Qt3DCore::QEntity(rootEntity);
     grSC2TrTransform = new Qt3DCore::QTransform(grSC2Tr);
@@ -112,6 +115,7 @@ InitSystem::InitSystem()
     grSC2Animation->setLoopCount(-1);
     grSC2Animation->setDuration(10000);
     grSC2Animation->start();
+
     perigey = earthSphere->radius()+300.0;
     apogey = earthSphere->radius()+600.0;
     A = perigey+apogey;
@@ -122,38 +126,36 @@ InitSystem::InitSystem()
 
 
 
-    pointVertex.resize(3*360*sizeof(float));
+    pointVertex.resize(3*500*sizeof(float));
     positions = reinterpret_cast<float*>(pointVertex.data());
 
     orbitaGeometry = new Qt3DRender::QGeometry(orbita);
-    buf = new Qt3DRender::QBuffer(orbitaGeometry);
 
-    QObject::connect(grSC2Animation,&QPropertyAnimation::valueChanged,grSC2Animation,[this](const QVariant & value){
+    buf = new Qt3DRender::QBuffer(orbitaGeometry);
+    int i = 0;
+
+    QObject::connect(grSC2Animation,&QPropertyAnimation::valueChanged,grSC2Animation,[this,i](const QVariant & value)mutable->int{
 
         double XF = (A * (cos((value.toFloat())*radToGrad))/**gradToRad*/);
         double ZF = (B * (sin((value.toFloat())*radToGrad))/**gradToRad*/);
         grSC2Transform->setTranslation(QVector3D(apogey-XF,0.0,ZF));
 
-
     });
 
+    *positions++ = grSC2Transform->translation().x();
+    *positions++ = grSC2Transform->translation().y();
+    *positions++ = grSC2Transform->translation().z();
+//    *positions++ = 600.0;
+//    *positions++ = 0.0;
+//    *positions++ = 0.0;
 
-//    int i = 0;
-//    while (i<=360)
-//    {
-//        *positions++ = grSC2Transform->translation().x();
-//        *positions++ = grSC2Transform->translation().y();
-//        *positions++ = grSC2Transform->translation().z();
-        *positions++ = 600.0;
-        *positions++ = 0.0;
-        *positions++ = 0.0;
-//        positions+=3;
-//        i++;
-//    }
+//                positions+=3;
+
+
+
 
 
     buf->setData(pointVertex);
-    qDebug()<<buf->data();
 
     orbitaAttribute = new Qt3DRender::QAttribute(orbitaGeometry);
 
@@ -168,7 +170,7 @@ InitSystem::InitSystem()
 
 
 
-    orbita->setPrimitiveType(Qt3DRender::QGeometryRenderer::LineLoop);
+    orbita->setPrimitiveType(Qt3DRender::QGeometryRenderer::LineStrip);
 
     material = new Qt3DExtras::QPhongMaterial(orbita);
     material->setAmbient(QColor(Qt::white));
