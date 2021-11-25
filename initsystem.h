@@ -75,6 +75,13 @@ public:
     QPropertyAnimation *sc2Animation;
 
 
+    //освещение
+    Qt3DCore::QEntity *pointEntity;
+    Qt3DCore::QTransform *lightTransform;
+    Qt3DRender::QDirectionalLight *pointLight;
+
+
+
     Qt3DRender::QCamera *camera;
     customCameraController *cameraController; //управление камерой
 

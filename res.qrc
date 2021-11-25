@@ -15,6 +15,7 @@
         <file>Textures/Tierra.jpg</file>
         <file>Textures/Tierra2k.jpg</file>
         <file>Textures/Tierra1024.jpg</file>
+        <file>Textures/Earth1.jpg</file>
     </qresource>
     <qresource prefix="/obj">
         <file>SpaceCraft/Voyager.mtl</file>

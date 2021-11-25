@@ -35,6 +35,7 @@ InitSystem::InitSystem()
     earthTexture->setSource(QUrl("qrc:/texture/Textures/Tierra2k.jpg"));
     earthTextureMaterial->setTexture(earthTexture);
 
+
     //модуль для управления сферой
     earthTransform = new Qt3DCore::QTransform(earthEntity);
     earthTransform->setTranslation(QVector3D(0.0,0.0,0.0));
@@ -142,12 +143,12 @@ InitSystem::InitSystem()
 
     });
 
-    *positions++ = grSC2Transform->translation().x();
-    *positions++ = grSC2Transform->translation().y();
-    *positions++ = grSC2Transform->translation().z();
-//    *positions++ = 600.0;
-//    *positions++ = 0.0;
-//    *positions++ = 0.0;
+//    *positions++ = grSC2Transform->translation().x();
+//    *positions++ = grSC2Transform->translation().y();
+//    *positions++ = grSC2Transform->translation().z();
+    *positions++ = 600.0;
+    *positions++ = 0.0;
+    *positions++ = 0.0;
 
 //                positions+=3;
 
@@ -202,6 +203,13 @@ InitSystem::InitSystem()
     });
 
 
+    pointEntity = new Qt3DCore::QEntity(rootEntity);
+    lightTransform = new Qt3DCore::QTransform(pointEntity);
+    pointLight= new Qt3DRender::QDirectionalLight(pointEntity);
+    pointLight->setIntensity(100);
+    pointLight->setWorldDirection(QVector3D(600.0,0.0,0.0));
+
+    lightTransform->setTranslation(QVector3D(0.0,0.0,0.0));
 
 
 
@@ -220,7 +228,9 @@ InitSystem::InitSystem()
     grSC2->addComponent(grSC2Transform);
     grSC2Tr->addComponent(grSC2TrTransform);
 
-
+    //освещение
+    pointEntity->addComponent(lightTransform);
+    pointEntity->addComponent(pointLight);
 
     //sc1
     sc1->addComponent(sc1Transform);
@@ -238,6 +248,8 @@ InitSystem::InitSystem()
     universe->addComponent(universeSphere);
 
     rootEntity->addComponent(rootTransform);
+
+
 
 
 
