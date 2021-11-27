@@ -35,7 +35,9 @@ InitSystem::InitSystem()
     earthTexture->setSource(QUrl("qrc:/texture/Textures/Tierra2k.jpg"));
     earthTextureMaterial->setTexture(earthTexture);
 
-
+//    phongEarth = new Qt3DExtras::QPhongMaterial(earthEntity);
+//    phongEarth->setDiffuse(Qt::black);
+//    phongEarth->setAmbient(Qt::white);
     //модуль для управления сферой
     earthTransform = new Qt3DCore::QTransform(earthEntity);
     earthTransform->setTranslation(QVector3D(0.0,0.0,0.0));
@@ -203,13 +205,14 @@ InitSystem::InitSystem()
     });
 
 
-    pointEntity = new Qt3DCore::QEntity(rootEntity);
+    pointEntity = new Qt3DCore::QEntity(universe);
     lightTransform = new Qt3DCore::QTransform(pointEntity);
     pointLight= new Qt3DRender::QDirectionalLight(pointEntity);
-    pointLight->setIntensity(100);
-    pointLight->setWorldDirection(QVector3D(600.0,0.0,0.0));
+    pointLight->setWorldDirection(QVector3D(-1,1,-1));
+    pointLight->setIntensity(0);
+    pointLight->setColor(Qt::red);
 
-    lightTransform->setTranslation(QVector3D(0.0,0.0,0.0));
+    lightTransform->setTranslation(QVector3D(600.0,0.0,0.0));
 
 
 

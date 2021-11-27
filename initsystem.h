@@ -39,6 +39,7 @@ public:
     Qt3DExtras::QSphereMesh *earthSphere; //сфера
     Qt3DRender::QTextureLoader *earthTexture; //загрузчик текстур
     Qt3DExtras::QTextureMaterial *earthTextureMaterial;
+    Qt3DExtras::QPhongMaterial *phongEarth;
     Qt3DCore::QTransform *earthTransform;
     QPropertyAnimation *propertyAnimationEarth;
 
