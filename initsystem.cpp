@@ -30,10 +30,17 @@ InitSystem::InitSystem()
     earthSphere->setRadius(500);
     earthSphere->setRings(500);
 
-    earthTexture= new Qt3DRender::QTextureLoader(earthEntity);
-    earthTextureMaterial= new Qt3DExtras::QTextureMaterial(earthEntity);
-    earthTexture->setSource(QUrl("qrc:/texture/Textures/Tierra2k.jpg"));
-    earthTextureMaterial->setTexture(earthTexture);
+    materiall = new Qt3DExtras::QDiffuseSpecularMaterial(earthEntity);
+    texture2d = new Qt3DRender::QTexture2D(earthEntity);
+    textureImage = new Qt3DRender::QTextureImage(texture2d);
+    textureImage->setSource(QUrl("qrc:/texture/Textures/Tierra2k.jpg"));
+    texture2d->addTextureImage(textureImage);
+    materiall->setDiffuse(QVariant::fromValue<Qt3DRender::QAbstractTexture *>(texture2d));
+    materiall->setShininess(-1);
+    materiall->setAmbient(QColor(33,33,33));
+
+
+
 
 //    phongEarth = new Qt3DExtras::QPhongMaterial(earthEntity);
 //    phongEarth->setDiffuse(Qt::black);
@@ -173,7 +180,7 @@ InitSystem::InitSystem()
 
 
 
-    orbita->setPrimitiveType(Qt3DRender::QGeometryRenderer::LineStrip);
+    orbita->setPrimitiveType(Qt3DRender::QGeometryRenderer::LineLoop);
 
     material = new Qt3DExtras::QPhongMaterial(orbita);
     material->setAmbient(QColor(Qt::white));
@@ -204,17 +211,14 @@ InitSystem::InitSystem()
             sc2Transform->setRotation(QQuaternion::fromEulerAngles(QVector3D(0.0,value.toFloat(),0.0)));
     });
 
+    spotLight = new Qt3DCore::QEntity(universe);
+    lightTransform = new Qt3DCore::QTransform(spotLight);
 
-    pointEntity = new Qt3DCore::QEntity(universe);
-    lightTransform = new Qt3DCore::QTransform(pointEntity);
-    pointLight= new Qt3DRender::QDirectionalLight(pointEntity);
-    pointLight->setWorldDirection(QVector3D(-1,1,-1));
-    pointLight->setIntensity(0);
-    pointLight->setColor(Qt::red);
+    pointEntity = new Qt3DCore::QEntity(spotLight);
+    pointLight=new Qt3DRender::QPointLight(pointEntity);
+    pointLight->setIntensity(1.3);
 
-    lightTransform->setTranslation(QVector3D(600.0,0.0,0.0));
-
-
+    lightTransform->setTranslation(QVector3D(3500,0,0));
 
 
     //добавление компонентов всех сущностей
@@ -232,8 +236,9 @@ InitSystem::InitSystem()
     grSC2Tr->addComponent(grSC2TrTransform);
 
     //освещение
-    pointEntity->addComponent(lightTransform);
+    spotLight->addComponent(lightTransform);
     pointEntity->addComponent(pointLight);
+
 
     //sc1
     sc1->addComponent(sc1Transform);
@@ -242,7 +247,7 @@ InitSystem::InitSystem()
 
     //Земля
     earthEntity->addComponent(earthTransform);
-    earthEntity->addComponent(earthTextureMaterial);
+    earthEntity->addComponent(materiall);
     earthEntity->addComponent(earthSphere);
 
     //космос

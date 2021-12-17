@@ -37,12 +37,13 @@ public:
     //создание Земли
     Qt3DCore::QEntity *earthEntity; //сущность
     Qt3DExtras::QSphereMesh *earthSphere; //сфера
-    Qt3DRender::QTextureLoader *earthTexture; //загрузчик текстур
-    Qt3DExtras::QTextureMaterial *earthTextureMaterial;
-    Qt3DExtras::QPhongMaterial *phongEarth;
+
     Qt3DCore::QTransform *earthTransform;
     QPropertyAnimation *propertyAnimationEarth;
 
+    Qt3DExtras::QDiffuseSpecularMaterial *materiall;
+    Qt3DRender::QTexture2D *texture2d;
+    Qt3DRender::QTextureImage *textureImage;
 
     Qt3DCore::QEntity *grSC1; //сущность для орбитальной группировки
     Qt3DCore::QTransform *grSC1Transform;
@@ -77,9 +78,14 @@ public:
 
 
     //освещение
+    Qt3DCore::QEntity *spotLight;
+
     Qt3DCore::QEntity *pointEntity;
     Qt3DCore::QTransform *lightTransform;
-    Qt3DRender::QDirectionalLight *pointLight;
+    Qt3DRender::QPointLight *pointLight;
+
+
+
 
 
 
